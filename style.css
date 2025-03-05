@@ -1,0 +1,94 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #111;
+    color: white;
+}
+
+.container {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.circle {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    fill: transparent;
+    stroke: #4b4b4b;
+    stroke-width: 4px;
+    transform: rotate(-90deg);
+}
+
+.circle svg circle:nth-child(2) {
+    stroke: var(--color);
+    transition: stroke-dashoffset 0.2s linear;
+}
+
+.dots {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--color);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--color);
+}
+
+.time-text {
+    font-size: 1rem;
+    font-weight: 200;
+    text-transform: uppercase;
+    text-align: center;
+    position: absolute;
+    bottom: -25px;
+    width: 100%;
+}
+
+#ap {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.dots {
+    position: absolute;
+    width: 14px;
+
+    height: 14px;
+    background: var(--color);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--color);
+    z-index: 2;
+
+}
+
+.circle svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    fill: transparent;
+    stroke: #4b4b4b;
+    stroke-width: 4px;
+    transform: rotate(-90deg);
+    z-index: 1;
+
+}
