@@ -2,93 +2,936 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
 }
 
+
+:root {
+    --pink: #ff2d78;
+    --yellow: #ffd52e;
+    --green: #45ff75;
+
+    --bg: #03050c;
+    --card-bg: rgba(10, 15, 25, 0.65);
+
+    --text: #ffffff;
+    --muted: #788092;
+}
+
+
+html,
 body {
+    width: 100%;
+    min-height: 100%;
+}
+
+
+body {
+
+    font-family: "Orbitron", sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            #101625 0%,
+            #050810 45%,
+            #020308 100%
+        );
+
+    color: var(--text);
+
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background: #111;
+
+    overflow-x: hidden;
+
+    min-height: 100vh;
+}
+
+
+/* ========================================
+   BACKGROUND
+======================================== */
+
+.background {
+    position: fixed;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+}
+
+
+.orb {
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    filter: blur(100px);
+
+    opacity: 0.15;
+
+    animation: floatOrb 10s ease-in-out infinite alternate;
+}
+
+
+.orb-1 {
+
+    width: 400px;
+    height: 400px;
+
+    background: var(--pink);
+
+    top: -150px;
+    left: -150px;
+}
+
+
+.orb-2 {
+
+    width: 350px;
+    height: 350px;
+
+    background: #0066ff;
+
+    right: -150px;
+    top: 30%;
+
+    animation-delay: 2s;
+}
+
+
+.orb-3 {
+
+    width: 350px;
+    height: 350px;
+
+    background: var(--green);
+
+    bottom: -200px;
+    left: 40%;
+
+    animation-delay: 4s;
+}
+
+
+@keyframes floatOrb {
+
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(50px, -40px) scale(1.2);
+    }
+
+}
+
+
+/* ========================================
+   MAIN
+======================================== */
+
+.clock-wrapper {
+
+    width: min(1250px, 95%);
+
+    text-align: center;
+
+    position: relative;
+
+    z-index: 2;
+
+    padding: 30px 20px;
+}
+
+
+/* ========================================
+   HEADER
+======================================== */
+
+.header {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 55px;
+
+    animation: fadeDown 1s ease forwards;
+}
+
+
+.header h1 {
+
+    font-size: clamp(2rem, 5vw, 4rem);
+
+    font-weight: 600;
+
+    letter-spacing: 14px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--pink),
+            #9c6cff,
+            #00cfff,
+            var(--green)
+        );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    text-shadow:
+        0 0 30px rgba(255, 45, 120, 0.2);
+}
+
+
+.header p {
+
+    color: #7e8799;
+
+    font-size: 0.7rem;
+
+    letter-spacing: 7px;
+}
+
+
+.header-line {
+
+    width: 130px;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #7e8799,
+            transparent
+        );
+}
+
+
+/* ========================================
+   CLOCK CONTAINER
+======================================== */
+
+.clock-container {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: clamp(25px, 5vw, 70px);
+
+    flex-wrap: wrap;
+}
+
+
+/* ========================================
+   CLOCK CARD
+======================================== */
+
+.clock-card {
+
+    position: relative;
+
+    width: 260px;
+    height: 260px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    transition:
+        transform 0.5s ease,
+        filter 0.5s ease;
+}
+
+
+.clock-card:hover {
+
+    transform: translateY(-12px) scale(1.04);
+
+}
+
+
+.hours-card {
+    --color: var(--pink);
+}
+
+
+.minutes-card {
+    --color: var(--yellow);
+}
+
+
+.seconds-card {
+    --color: var(--green);
+}
+
+
+.clock-ring {
+
+    width: 230px;
+    height: 230px;
+
+    position: relative;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(20, 27, 40, 0.8),
+            rgba(4, 7, 13, 0.95)
+        );
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    box-shadow:
+        inset 0 0 40px rgba(255, 255, 255, 0.025),
+        0 0 30px color-mix(
+            in srgb,
+            var(--color),
+            transparent 80%
+        );
+
+}
+
+
+/* ========================================
+   SVG RING
+======================================== */
+
+.clock-ring svg {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    transform: rotate(-90deg);
+
+    overflow: visible;
+}
+
+
+.ring-bg {
+
+    fill: none;
+
+    stroke: #1a202c;
+
+    stroke-width: 5;
+}
+
+
+.ring-progress {
+
+    fill: none;
+
+    stroke: var(--color);
+
+    stroke-width: 5;
+
+    stroke-linecap: round;
+
+    filter:
+        drop-shadow(0 0 5px var(--color))
+        drop-shadow(0 0 12px var(--color));
+
+    transition:
+        stroke-dashoffset 0.15s linear;
+}
+
+
+/* ========================================
+   INNER RING
+======================================== */
+
+.clock-ring::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 15px;
+
+    border-radius: 50%;
+
+    border: 1px solid
+        rgba(255, 255, 255, 0.06);
+
+}
+
+
+.clock-ring::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 27px;
+
+    border-radius: 50%;
+
+    border: 1px dashed
+        rgba(255, 255, 255, 0.06);
+
+    animation:
+        rotateRing 30s linear infinite;
+}
+
+
+@keyframes rotateRing {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* ========================================
+   CLOCK TEXT
+======================================== */
+
+.clock-content {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 5;
+}
+
+
+.clock-value {
+
+    font-size: clamp(3rem, 5vw, 4.2rem);
+
+    font-weight: 600;
+
+    letter-spacing: 2px;
+
+    color: var(--color);
+
+    text-shadow:
+        0 0 10px var(--color),
+        0 0 25px color-mix(
+            in srgb,
+            var(--color),
+            transparent 50%
+        );
+
+    transition:
+        transform 0.2s ease;
+}
+
+
+.clock-value.pulse {
+
+    animation: numberPulse 0.35s ease;
+}
+
+
+@keyframes numberPulse {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+}
+
+
+.clock-label {
+
+    margin-top: 5px;
+
+    font-size: 0.65rem;
+
+    letter-spacing: 5px;
+
+    color: #7d8595;
+}
+
+
+/* ========================================
+   MOVING DOT
+======================================== */
+
+.moving-dot {
+
+    position: absolute;
+
+    width: 14px;
+    height: 14px;
+
+    border-radius: 50%;
+
+    background: var(--color);
+
+    box-shadow:
+        0 0 8px var(--color),
+        0 0 20px var(--color),
+        0 0 40px var(--color);
+
+    z-index: 10;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(0deg)
+        translateX(108px);
+
+    transform-origin: 0 0;
+
+}
+
+
+/* ========================================
+   TICKS
+======================================== */
+
+.ticks {
+
+    position: absolute;
+
+    inset: 20px;
+
+    border-radius: 50%;
+
+    z-index: 3;
+
+    pointer-events: none;
+}
+
+
+.tick {
+
+    position: absolute;
+
+    width: 2px;
+
+    height: 6px;
+
+    background: var(--color);
+
+    left: 50%;
+    top: 0;
+
+    transform-origin:
+        50% 95px;
+
+    opacity: 0.45;
+}
+
+
+/* ========================================
+   AM PM
+======================================== */
+
+.ampm-container {
+
+    margin: 35px auto;
+
+    width: 170px;
+
+    height: 50px;
+
+    border-radius: 30px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 20px;
+
+    background:
+        rgba(10, 15, 25, 0.7);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.1);
+
+    box-shadow:
+        0 0 25px rgba(0, 0, 0, 0.5),
+        inset 0 0 20px rgba(255, 255, 255, 0.02);
+
+    font-size: 1rem;
+
+    letter-spacing: 4px;
+}
+
+
+.status-dot {
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #00ff8c;
+
+    box-shadow:
+        0 0 10px #00ff8c,
+        0 0 20px #00ff8c;
+
+    animation: blink 1.5s infinite;
+}
+
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+}
+
+
+/* ========================================
+   FEATURES
+======================================== */
+
+.features {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 0;
+
+    margin-top: 25px;
+
+    padding: 25px;
+
+    border-radius: 30px;
+
+    background:
+        rgba(10, 15, 25, 0.55);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.07);
+
+    backdrop-filter: blur(15px);
+}
+
+
+.feature {
+
+    flex: 1;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 14px;
+
+    min-width: 180px;
+
+    padding: 10px 20px;
+
+    border-right:
+        1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.feature:last-child {
+    border-right: none;
+}
+
+
+.feature-icon {
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid var(--pink);
+
+    color: var(--pink);
+
+    font-size: 1.2rem;
+
+    box-shadow:
+        0 0 15px rgba(255, 45, 120, 0.2);
+}
+
+
+.feature:nth-child(2) .feature-icon {
+
+    color: var(--yellow);
+
+    border-color: var(--yellow);
+}
+
+
+.feature:nth-child(3) .feature-icon {
+
+    color: var(--green);
+
+    border-color: var(--green);
+}
+
+
+.feature:nth-child(4) .feature-icon {
+
+    color: #00cfff;
+
+    border-color: #00cfff;
+}
+
+
+.feature div:last-child {
+
+    display: flex;
+
+    flex-direction: column;
+
+    text-align: left;
+
+    gap: 5px;
+}
+
+
+.feature span {
+
+    font-size: 0.65rem;
+
+    letter-spacing: 2px;
+
     color: white;
 }
 
-.container {
-    display: flex;
-    gap: 40px;
-    align-items: center;
+
+.feature small {
+
+    font-size: 0.55rem;
+
+    letter-spacing: 2px;
+
+    color: #687183;
 }
 
-.circle {
-    position: relative;
-    width: 140px;
-    height: 140px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-.circle svg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    fill: transparent;
-    stroke: #4b4b4b;
-    stroke-width: 4px;
-    transform: rotate(-90deg);
-}
+/* ========================================
+   ANIMATIONS
+======================================== */
 
-.circle svg circle:nth-child(2) {
-    stroke: var(--color);
-    transition: stroke-dashoffset 0.2s linear;
-}
+@keyframes fadeDown {
 
-.dots {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    background: var(--color);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--color);
-}
+    from {
 
-.time-text {
-    font-size: 1rem;
-    font-weight: 200;
-    text-transform: uppercase;
-    text-align: center;
-    position: absolute;
-    bottom: -25px;
-    width: 100%;
-}
+        opacity: 0;
 
-#ap {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-left: 10px;
-}
+        transform:
+            translateY(-30px);
 
-.dots {
-    position: absolute;
-    width: 14px;
+    }
 
-    height: 14px;
-    background: var(--color);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--color);
-    z-index: 2;
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
 
 }
 
-.circle svg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    fill: transparent;
-    stroke: #4b4b4b;
-    stroke-width: 4px;
-    transform: rotate(-90deg);
-    z-index: 1;
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 850px) {
+
+    .header h1 {
+
+        letter-spacing: 7px;
+
+    }
+
+
+    .clock-container {
+
+        gap: 20px;
+
+    }
+
+
+    .clock-card {
+
+        width: 220px;
+        height: 220px;
+
+    }
+
+
+    .clock-ring {
+
+        width: 200px;
+        height: 200px;
+
+    }
+
+
+    .moving-dot {
+
+        transform:
+            translate(-50%, -50%)
+            rotate(0deg)
+            translateX(93px);
+
+    }
+
+
+    .feature {
+
+        min-width: 140px;
+
+        padding: 8px;
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    body {
+
+        align-items: flex-start;
+
+    }
+
+
+    .clock-wrapper {
+
+        padding-top: 40px;
+
+    }
+
+
+    .header {
+
+        margin-bottom: 30px;
+
+    }
+
+
+    .header h1 {
+
+        font-size: 1.8rem;
+
+        letter-spacing: 4px;
+
+    }
+
+
+    .header p {
+
+        font-size: 0.5rem;
+
+        letter-spacing: 3px;
+
+    }
+
+
+    .clock-container {
+
+        flex-direction: column;
+
+    }
+
+
+    .clock-card {
+
+        width: 220px;
+        height: 220px;
+
+    }
+
+
+    .features {
+
+        flex-direction: column;
+
+        gap: 15px;
+
+    }
+
+
+    .feature {
+
+        width: 100%;
+
+        border-right: none;
+
+        border-bottom:
+            1px solid rgba(255, 255, 255, 0.08);
+
+        padding-bottom: 15px;
+
+    }
+
+
+    .feature:last-child {
+
+        border-bottom: none;
+
+    }
 
 }
