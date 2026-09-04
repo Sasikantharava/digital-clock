@@ -4,102 +4,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Clock Animation</title>
+
+    <title>Digital Neon Clock</title>
+
     <link rel="stylesheet" href="style.css">
- 
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
-    <div class="container">
-        <div class="circle" style="--color: #f72972">
-            <div class="dots h_dot"></div>
-            <svg>
-                <circle cx="70" cy="70" r="65"></circle>
-                <circle cx="70" cy="70" r="65" id="hh"></circle>
-            </svg>
-            <div id="hours">
-                <p id="hrs" style="font-size: 2rem;">00</p>
-                <p class="time-text">Hours</p>
-            </div>
-        </div>
-        <div class="circle" style="--color: #fee800">
-            <div class="dots m_dot"></div>
-            <svg>
-                <circle cx="70" cy="70" r="65"></circle>
-                <circle cx="70" cy="70" r="65" id="mm"></circle>
-            </svg>
-            <div id="minutes">
-                <p id="mins" style="font-size: 2rem;">00</p>
-                <p class="time-text">Minutes</p>
-            </div>
-        </div>
-        <div class="circle" style="--color: #04fc43">
-            <div class="dots s_dot"></div>
-            <svg>
-                <circle cx="70" cy="70" r="65"></circle>
-                <circle cx="70" cy="70" r="65" id="ss"></circle>
-            </svg>
-            <div id="seconds">
-                <p id="secs" style="font-size: 2rem;">00</p>
-                <p class="time-text">Seconds</p>
-            </div>
-        </div>
-        <div id="ap">
-            <p id="ampm">AM</p>
-        </div>
+
+    <!-- Animated Background -->
+    <div class="background">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
     </div>
 
-    <script>
-        let hh = document.getElementById("hh");
-        let mm = document.getElementById("mm");
-        let ss = document.getElementById("ss");
+    <main class="clock-wrapper">
 
-        const hhLength = hh.getTotalLength();
-        const mmLength = mm.getTotalLength();
-        const ssLength = ss.getTotalLength();
+        <!-- Header -->
+        <header class="header">
 
-        [hh, mm, ss].forEach((circle, index) => {
-            const length = [hhLength, mmLength, ssLength][index];
-            circle.style.strokeDasharray = length;
-            circle.style.strokeDashoffset = length;
-        });
+            <div class="header-line"></div>
 
-        function updateClock() {
-            let now = new Date();
-            let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-            let ms = now.getMilliseconds();
-            let ampm = h >= 12 ? "PM" : "AM";
-            h = h % 12 || 12;
+            <h1>DIGITAL CLOCK</h1>
 
-            document.getElementById("hrs").innerText = h.toString().padStart(2, "0");
-            document.getElementById("mins").innerText = m.toString().padStart(2, "0");
-            document.getElementById("secs").innerText = s.toString().padStart(2, "0");
-            document.getElementById("ampm").innerText = ampm;
+            <p>TIME IS PRECIOUS. USE IT WISELY.</p>
 
-            let h_dot = document.querySelector(".h_dot"), m_dot = document.querySelector(".m_dot"), s_dot = document.querySelector(".s_dot");
-            let radius = 65;
+            <div class="header-line"></div>
+
+        </header>
 
 
-            let angleH = ((30 * h) + (0.5 * m)) - 90;
-            let angleM = ((6 * m) + (0.1 * s)) - 90;
-            let angleS = ((6 * s) + (0.006 * ms)) - 90;
+        <!-- Clock -->
+        <section class="clock-container">
 
-            hh.style.strokeDashoffset = hhLength - ((h + m / 60) / 12 * hhLength);
-            mm.style.strokeDashoffset = mmLength - ((m + s / 60) / 60 * mmLength);
-            ss.style.strokeDashoffset = ssLength - ((s + ms / 1000) / 60 * ssLength);
+            <!-- HOURS -->
+            <div class="clock-card hours-card">
+
+                <div class="clock-ring">
+
+                    <svg viewBox="0 0 160 160">
+
+                        <circle
+                            class="ring-bg"
+                            cx="80"
+                            cy="80"
+                            r="72">
+                        </circle>
+
+                        <circle
+                            class="ring-progress"
+                            id="hour-ring"
+                            cx="80"
+                            cy="80"
+                            r="72">
+                        </circle>
+
+                    </svg>
+
+                    <div class="ticks" id="hour-ticks"></div>
+
+                    <div class="moving-dot"></div>
+
+                    <div class="clock-content">
+
+                        <span class="clock-value" id="hours">
+                            00
+                        </span>
+
+                        <span class="clock-label">
+                            HOURS
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
 
 
-            h_dot.style.transform = `translate(${radius * Math.cos(angleH * Math.PI / 180)}px, ${radius * Math.sin(angleH * Math.PI / 180)}px)`;
-            m_dot.style.transform = `translate(${radius * Math.cos(angleM * Math.PI / 180)}px, ${radius * Math.sin(angleM * Math.PI / 180)}px)`;
-            s_dot.style.transform = `translate(${radius * Math.cos(angleS * Math.PI / 180)}px, ${radius * Math.sin(angleS * Math.PI / 180)}px)`;
+            <!-- MINUTES -->
+            <div class="clock-card minutes-card">
 
-            requestAnimationFrame(updateClock);
-        }
+                <div class="clock-ring">
 
-        updateClock();
+                    <svg viewBox="0 0 160 160">
+
+                        <circle
+                            class="ring-bg"
+                            cx="80"
+                            cy="80"
+                            r="72">
+                        </circle>
+
+                        <circle
+                            class="ring-progress"
+                            id="minute-ring"
+                            cx="80"
+                            cy="80"
+                            r="72">
+                        </circle>
+
+                    </svg>
+
+                    <div class="ticks" id="minute-ticks"></div>
+
+                    <div class="moving-dot"></div>
+
+                    <div class="clock-content">
+
+                        <span class="clock-value" id="minutes">
+                            00
+                        </span>
+
+                        <span class="clock-label">
+                            MINUTES
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
 
 
-    </script>
+            <!-- SECONDS -->
+            <div class="clock-card seconds-card">
+
+                <div class="clock-ring">
+
+                    <svg viewBox="0 0 160 160">
+
+                        <circle
+                            class="ring-bg"
+                            cx="80"
+                            cy="80"
+                            r="72">
+                        </circle>
+
+                        <circle
+                            class="ring-progress"
+                            id="second-ring"
+                            cx="80"
+                            cy="80"
+                            r="72">
+                        </circle>
+
+                    </svg>
+
+                    <div class="ticks" id="second-ticks"></div>
+
+                    <div class="moving-dot"></div>
+
+                    <div class="clock-content">
+
+                        <span class="clock-value" id="seconds">
+                            00
+                        </span>
+
+                        <span class="clock-label">
+                            SECONDS
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- AM PM -->
+        <div class="ampm-container">
+
+            <span class="status-dot"></span>
+
+            <span id="ampm">
+                AM
+            </span>
+
+            <span class="status-dot"></span>
+
+        </div>
+
+
+        <!-- Footer Features -->
+        <section class="features">
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ◷
+                </div>
+
+                <div>
+                    <span>REAL TIME</span>
+                    <small>ACCURATE</small>
+                </div>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ⚡
+                </div>
+
+                <div>
+                    <span>SMOOTH</span>
+                    <small>60 FPS</small>
+                </div>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ✦
+                </div>
+
+                <div>
+                    <span>MODERN</span>
+                    <small>NEON UI</small>
+                </div>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ◉
+                </div>
+
+                <div>
+                    <span>RESPONSIVE</span>
+                    <small>ALL DEVICES</small>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
 </body>
 
 </html>
